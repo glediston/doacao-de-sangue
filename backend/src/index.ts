@@ -3,6 +3,9 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
+import userRoutes from './routes/userRoutes';
+
+
 
 dotenv.config();
 
@@ -17,6 +20,8 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/auth', authRoutes);
+app.use('/api', userRoutes);
+
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
