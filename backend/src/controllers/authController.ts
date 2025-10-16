@@ -1,0 +1,39 @@
+
+
+
+import { Request, Response } from 'express';
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+const prisma = new PrismaClient();
+
+export const register = async (req: Request, res: Response) => {
+  const { name, email, password } = req.body;
+
+  const userExists = await prisma.user.findUnique({ where: { email } });
+  if (userExists) return res.status(400).json({ error: 'Email já cadastrado' });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+  const user = await prisma.user.create({ data: { name, email, password: hashedPassword } });
+  res.status(201).json({ user });
+};
+
+export const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user ) {
+    return res.status(401).json({ error: 'Credenciais inválidas' });
+  }
+
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  if (!passwordMatch) return res.status(401).json({ error: 'Credenciais inválidas' });
+
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+
+ 
+
+  res.json({ message: 'Login bem-sucedido', user });
+};
