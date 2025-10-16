@@ -20,5 +20,6 @@ model User {
   name     String
   email    String @unique
   password String
+  isAdmin   Boolean  @default(false) // novo campo para admin
   createdAt DateTime @default(now())
 }
