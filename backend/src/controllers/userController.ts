@@ -18,7 +18,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const updateProfile = async (req: Request, res: Response) => {
   const userId = Number(req.params.id)
-  const { name, email, password, hasDonated, experience } = req.body;
+  const { name, email, password,  } = req.body;
 
   try {
     const updatedUser = await prisma.user.update({
