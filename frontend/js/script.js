@@ -65,18 +65,20 @@ async function login() {
     const data = await res.json();
 
     if (data.token) {
-      localStorage.setItem('token', data.token);
-      alert('Login realizado com sucesso!');
+  localStorage.setItem('token', data.token);
 
-      // Se o usuário for admin
-      if (data.user && data.user.isAdmin) {
-        window.location.href = 'admin.html';
-      } else {
-        alert('Bem-vindo, doador!');
-      }
-    } else {
-      alert(data.error);
-    }
+  // Verifica se é admin
+  if (data.user && data.user.isAdmin) {
+    alert('Bem-vindo, administrador!');
+    window.location.href = 'admin.html';
+  } else {
+    alert('Bem-vindo, doador!');
+    window.location.href = 'user.html';
+  }
+} else {
+  alert(data.error);
+}
+
   } catch (err) {
     alert('Erro ao logar');
   }
