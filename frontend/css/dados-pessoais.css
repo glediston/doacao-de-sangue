@@ -1,0 +1,30 @@
+
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.label {
+  width: 80px;
+  font-weight: bold;
+}
+
+.value {
+  flex: 1;
+}
+
+.edit-btn {
+  margin-left: 10px;
+}
+
+.edit-form {
+  display: none;
+  margin-top: 10px;
+}

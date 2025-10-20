@@ -65,21 +65,23 @@ async function login() {
     const data = await res.json();
 
     if (data.token) {
-  localStorage.setItem('token', data.token);
+      // Salva o token e o ID do usuário
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('userId', data.user.id); // 👈 necessário para editar perfil
 
-  // Verifica se é admin
-  if (data.user && data.user.isAdmin) {
-    alert('Bem-vindo, administrador!');
-    window.location.href = 'admin.html';
-  } else {
-    alert('Bem-vindo, doador!');
-    window.location.href = 'user.html';
-  }
-} else {
-  alert(data.error);
-}
-
+      // Verifica se é admin
+      if (data.user.isAdmin) {
+        alert('Bem-vindo, administrador!');
+        window.location.href = 'admin.html';
+      } else {
+        alert('Bem-vindo, doador!');
+        window.location.href = 'user.html';
+      }
+    } else {
+      alert(data.error);
+    }
   } catch (err) {
     alert('Erro ao logar');
+    console.error(err);
   }
 }
