@@ -16,7 +16,7 @@ export const register = async (req: Request, res: Response) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = await prisma.user.create({ data: { name, email, password: hashedPassword } });
+  const user = await prisma.user.create({ data: { name, email, password: hashedPassword,isAvailable: false  } });
   res.status(201).json({ message: "Usuario cadastrado com sucesso"});
 };
 
@@ -39,6 +39,7 @@ export const login = async (req: Request, res: Response) => {
     id: user.id,
     name: user.name,
     email: user.email,
-    isAdmin: user.isAdmin }
+    isAdmin: user.isAdmin,
+  isAvailable: user.isAvailable}
 });
 };

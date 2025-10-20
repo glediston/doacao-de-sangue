@@ -1,0 +1,24 @@
+
+
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 30px;
+}
+
+.perfil-item {
+  margin-bottom: 25px;
+}
+
+.perfil-item label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.edit-block {
+  margin-top: 10px;
+}

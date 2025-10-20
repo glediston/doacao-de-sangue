@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dados Pessoais</title>
+  <link rel="stylesheet" href="css/dados-pessoais.css" />
+</head>
+<body>
+  <h2>Dados Pessoais</h2>
+
+  <!-- EMAIL -->
+  <div class="item">
+    <div class="label">Email:</div>
+    <div class="value" id="emailAtual">carregando...</div>
+    <button class="edit-btn" id="btnEditarEmail">Editar</button>
+  </div>
+  <div class="edit-form" id="formEmail">
+    <input type="email" id="novoEmail" placeholder="Novo email" />
+    <button id="btnSalvarEmail">Salvar</button>
+  </div>
+
+  <!-- SENHA -->
+  <div class="item">
+    <div class="label">Senha:</div>
+    <div class="value">••••••••••••••••••</div>
+    <button class="edit-btn" id="btnEditarSenha">Editar</button>
+  </div>
+  <div class="edit-form" id="formSenha">
+    <input type="password" id="senhaAtual" placeholder="Senha atual" />
+    <input type="password" id="senhaNova" placeholder="Nova senha" />
+    <button id="btnSalvarSenha">Salvar</button>
+  </div>
+
+  <script src="js/dados-pessoais.js"></script>
+</body>
+</html>
