@@ -1,7 +1,5 @@
 
 
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -11,6 +9,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
+
 <body>
   <div class="sidebar">
     <h2>Menu</h2>
@@ -21,6 +20,20 @@
   <div class="main">
     <h1>Lista de Usuários</h1>
     <div class="user-list" id="userList"></div>
+  </div>
+
+  <!-- 🔧 Modal de Atualização -->
+  <div class="modal" id="updateModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeUpdateModal()">&times;</span>
+      <h2>Atualizar Usuário</h2>
+
+      <input type="text" id="upd-name" placeholder="Novo nome" />
+      <input type="email" id="upd-email" placeholder="Novo e-mail" />
+      <input type="password" id="upd-password" placeholder="Nova senha (opcional)" />
+
+      <button id="btnSaveUpdate">Salvar Alterações</button>
+    </div>
   </div>
 
   <script src="js/admin.js"></script>
