@@ -2,6 +2,7 @@
 
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import { isAdmin } from '../middlewares/isAdminMiddleware';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -22,16 +23,19 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const updateProfile = async (req: Request, res: Response) => {
   const userId = Number(req.params.id);
+  const requestingUserId = (req as any).userId;
+  const isAdmin = (req as any).isAdmin;
   const { name, email, password } = req.body;
 
-  try {
-    const dataToUpdate: any = { name, email };
+  if (!isAdmin && requestingUserId !== userId) {
+    return res.status(403).json({ error: "Acesso negado" });
+  }
 
-    // só atualiza a senha se o campo vier preenchido
-    if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      dataToUpdate.password = hashedPassword;
-    }
+  try {
+    const dataToUpdate: any = {};
+    if (name) dataToUpdate.name = name;
+    if (email) dataToUpdate.email = email;
+    if (password) dataToUpdate.password = await bcrypt.hash(password, 10);
 
     const updatedUser = await prisma.user.update({
       where: { id: userId },
@@ -46,20 +50,25 @@ export const updateProfile = async (req: Request, res: Response) => {
 };
 
 
+
 export const updatePassword = async (req: Request, res: Response) => {
   const userId = Number(req.params.id);
+  const requestingUserId = (req as any).userId;
+  const isAdmin = (req as any).isAdmin;
   const { senhaAtual, senhaNova } = req.body;
+
+  if (!isAdmin && requestingUserId !== userId) {
+    return res.status(403).json({ error: "Acesso negado" });
+  }
 
   try {
     const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
 
-    if (!user) {
-      return res.status(404).json({ error: 'Usuário não encontrado' });
-    }
-
-    const senhaCorreta = await bcrypt.compare(senhaAtual, user.password);
-    if (!senhaCorreta) {
-      return res.status(401).json({ error: 'Senha atual incorreta' });
+    // se não for admin, checa a senha atual
+    if (!isAdmin) {
+      const senhaCorreta = await bcrypt.compare(senhaAtual, user.password);
+      if (!senhaCorreta) return res.status(401).json({ error: 'Senha atual incorreta' });
     }
 
     const senhaCriptografada = await bcrypt.hash(senhaNova, 10);
@@ -74,4 +83,5 @@ export const updatePassword = async (req: Request, res: Response) => {
     res.status(400).json({ error: 'Erro ao atualizar senha' });
   }
 };
+
 
