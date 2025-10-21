@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
+import donorRoutes from './routes/donationRoutes'
 
 
 
@@ -21,7 +22,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/auth', authRoutes);
 app.use('/api', userRoutes);
-
+app.use('/doacao', donorRoutes)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
