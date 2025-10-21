@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import { getAllUsers, updateProfile, updateDisponibilidade} from '../controllers/userController';
+import { getAllUsers, updateProfile } from '../controllers/userController';
 import { authenticateToken } from '../middlewares/authMiddleware';
 import { isAdmin } from '../middlewares/isAdminMiddleware';
+import { updatePassword } from '../controllers/userController';
 
 const router = Router();
 
@@ -11,7 +12,9 @@ router.get('/users', authenticateToken, getAllUsers);
 // Qualquer usuário logado pode atualizar seu perfil
 router.put('/user/:id', authenticateToken, updateProfile);
 
-// rota para dispomibilidade do doador
-router.put('/user/:id/disponibilidade', authenticateToken, updateDisponibilidade);
+//atualizar somente senha
+router.put('/user/:id/senha', authenticateToken, updatePassword);
+
+
 
 export default router;

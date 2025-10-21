@@ -2,6 +2,7 @@
 
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -40,19 +41,32 @@ export const updateProfile = async (req: Request, res: Response) => {
   }
 };
 
-
-export const updateDisponibilidade = async (req: Request, res: Response) => {
+export const updatePassword = async (req: Request, res: Response) => {
   const userId = Number(req.params.id);
-  const { isAvailable } = req.body;
+  const { senhaAtual, senhaNova } = req.body;
 
   try {
-    const updatedUser = await prisma.user.update({
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    const senhaCorreta = await bcrypt.compare(senhaAtual, user.password);
+    if (!senhaCorreta) {
+      return res.status(401).json({ error: 'Senha atual incorreta' });
+    }
+
+    const senhaCriptografada = await bcrypt.hash(senhaNova, 10);
+
+    await prisma.user.update({
       where: { id: userId },
-      data: { isAvailable }
+      data: { password: senhaCriptografada }
     });
 
-    res.json({ message: 'Disponibilidade atualizada com sucesso', user: updatedUser });
+    res.json({ message: 'Senha atualizada com sucesso' });
   } catch (error) {
-    res.status(400).json({ error: 'Erro ao atualizar disponibilidade' });
+    res.status(400).json({ error: 'Erro ao atualizar senha' });
   }
 };
+
