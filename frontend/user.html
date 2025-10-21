@@ -10,22 +10,19 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-  <!-- Sidebar -->
   <div class="sidebar">
     <h2>Menu</h2>
     <button id="btnBuscar">🔍 Ver outros doadores</button>
-    <button id="btnPerfil">👤 Meu perfil</button>
     <button id="btnMinhaConta">⚙️ Minha Conta</button>
-    <div id="submenuConta" style="display: none; margin-top: 10px;">
+    <div id="submenuConta" class="submenu">
       <button id="btnDadosPessoais">📧 Dados Pessoais</button>
     </div>
     <button id="btnLogout">🚪 Sair</button>
   </div>
 
-  <!-- Área principal -->
   <div class="main">
     <h1>Bem-vindo, doador!</h1>
-    <div id="userList"></div> <!-- Aqui será carregado o conteúdo -->
+    <div id="userList"></div>
   </div>
 
   <script src="js/user.js"></script>
