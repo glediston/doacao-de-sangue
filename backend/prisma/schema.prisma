@@ -22,5 +22,6 @@ model User {
   password String
   isAdmin   Boolean  @default(false) // novo campo para admin
    isAvailable Boolean @default(false) 
+   bloodType String
   createdAt DateTime @default(now())
 }
