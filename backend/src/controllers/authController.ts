@@ -31,7 +31,7 @@ export const login = async (req: Request, res: Response) => {
   const passwordMatch = await bcrypt.compare(password, user.password);
   if (!passwordMatch) return res.status(401).json({ error: 'Credenciais inválidas' });
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
+    const token = jwt.sign({ userId: user.id, isAdmin: user.isAdmin }, process.env.JWT_SECRET!, { expiresIn: '1d' });
 
  
 

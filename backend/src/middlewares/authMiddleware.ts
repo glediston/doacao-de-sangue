@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 
 interface AuthenticatedRequest extends Request {
   userId?: string;
+  isAdmin?: boolean;
 }
 
 export const authenticateToken = (
@@ -13,7 +14,7 @@ export const authenticateToken = (
   next: NextFunction
 ) => {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; // Espera formato "Bearer <token>"
+  const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
     return res.status(401).json({ error: 'Token não fornecido' });
@@ -25,6 +26,7 @@ export const authenticateToken = (
     }
 
     req.userId = decoded.userId;
+    req.isAdmin = decoded.isAdmin; // ✅ adiciona isAdmin ao request
     next();
   });
 };

@@ -21,25 +21,30 @@ export const getAllUsers = async (req: Request, res: Response) => {
 };
 
 export const updateProfile = async (req: Request, res: Response) => {
-  const userId = Number(req.params.id)
-  const { name, email, password,  } = req.body;
+  const userId = Number(req.params.id);
+  const { name, email, password } = req.body;
 
   try {
+    const dataToUpdate: any = { name, email };
+
+    // só atualiza a senha se o campo vier preenchido
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      dataToUpdate.password = hashedPassword;
+    }
+
     const updatedUser = await prisma.user.update({
       where: { id: userId },
-      data: {
-        name,
-        email,
-        password,
-
-      },
+      data: dataToUpdate,
     });
 
-    res.json({ message: 'Perfil atualizado com sucesso', user: updatedUser });
+    res.json({ message: 'Usuário atualizado com sucesso', user: updatedUser });
   } catch (error) {
+    console.error(error);
     res.status(400).json({ error: 'Erro ao atualizar perfil' });
   }
 };
+
 
 export const updatePassword = async (req: Request, res: Response) => {
   const userId = Number(req.params.id);
