@@ -1,0 +1,20 @@
+
+
+stages:
+  - test
+  - deploy
+
+test_backend:
+  stage: test
+  image: node:20
+  script:
+    - cd backend-src
+    - npm install
+    - npm test
+
+deploy_frontend:
+  stage: deploy
+  script:
+    - echo "Deploy automático pela Vercel"
+  only:
+    - main
