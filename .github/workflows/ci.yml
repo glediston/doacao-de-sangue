@@ -12,10 +12,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: backend
-
     steps:
       - name: Checkout código
         uses: actions/checkout@v3
@@ -26,7 +22,11 @@ jobs:
           node-version: '20'
 
       - name: Instalar dependências
-        run: npm install
+        run: |
+          cd backend
+          npm install
 
       - name: Rodar testes
-        run: npm test
+        run: |
+          cd backend
+          npm test
