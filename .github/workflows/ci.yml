@@ -1,6 +1,5 @@
 
 
-
 name: CI Backend
 
 on:
@@ -12,6 +11,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend  # 👈 define o diretório padrão
 
     steps:
       - name: Checkout código
@@ -23,11 +25,7 @@ jobs:
           node-version: '20'
 
       - name: Instalar dependências
-        run: |
-          cd backend
-          npm install
+        run: npm install
 
       - name: Rodar testes
-        run: |
-          cd backend
-          npm test
+        run: npm test
