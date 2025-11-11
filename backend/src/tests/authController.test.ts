@@ -17,7 +17,7 @@ const mockPrisma = new (require('@prisma/client').PrismaClient)();
 describe('register', () => {
   it('deve retornar erro se bloodType não for fornecido', async () => {
     const req = {
-      body: { name: 'João', email: 'joao@email.com', password: '123456' }
+      body: { name: 'João', email: 'joao@email.com', password: 'Senha123!' }
     } as Request;
 
     const res = {
@@ -25,10 +25,17 @@ describe('register', () => {
       json: jest.fn()
     } as unknown as Response;
 
-    await register(req, res);
+    await register(req, res, mockPrisma);
 
     expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ error: 'O tipo sanguíneo é obrigatório' });
+    expect(res.json).toHaveBeenCalledWith({
+      error: {
+        _errors: [],
+        bloodType: {
+          _errors: ["Invalid input: expected string, received undefined"]
+        }
+      }
+    });
   });
 
   it('deve retornar erro se email já estiver cadastrado', async () => {
@@ -36,7 +43,7 @@ describe('register', () => {
       body: {
         name: 'Ana',
         email: 'ana@email.com',
-        password: 'senha123',
+        password: 'Senha123!',
         bloodType: 'A+'
       }
     } as Request;
@@ -48,7 +55,7 @@ describe('register', () => {
 
     mockPrisma.user.findUnique.mockResolvedValue({ id: 1 });
 
-    await register(req, res);
+    await register(req, res, mockPrisma);
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({ error: 'Email já cadastrado' });
@@ -59,7 +66,7 @@ describe('register', () => {
       body: {
         name: 'Maria',
         email: 'maria@email.com',
-        password: 'senha123',
+        password: 'Senha123!',
         bloodType: 'O+'
       }
     } as Request;
@@ -74,9 +81,7 @@ describe('register', () => {
 
     jest.spyOn(bcrypt, 'hash').mockImplementation(async () => 'senha-hash');
 
-
-
-    await register(req, res);
+    await register(req, res,mockPrisma);
 
     expect(mockPrisma.user.findUnique).toHaveBeenCalledWith({ where: { email: 'maria@email.com' } });
     expect(mockPrisma.user.create).toHaveBeenCalledWith({

@@ -10,7 +10,7 @@ import { registerSchema, loginSchema } from "../schemas/auth.schema";
 
 const prisma = new PrismaClient();
 
-export const register = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response,  db = prisma) => {
    // Validação com Zod
   const parsed = registerSchema.safeParse(req.body);
   if (!parsed.success) {
@@ -19,12 +19,12 @@ export const register = async (req: Request, res: Response) => {
 
   const { name, email, password, bloodType } = parsed.data;
 
-  const userExists = await prisma.user.findUnique({ where: { email } });
+  const userExists = await db.user.findUnique({ where: { email } });
   if (userExists) return res.status(400).json({ error: 'Email já cadastrado' });
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = await prisma.user.create({
+  const user = await db.user.create({
     data: {
       name, email, password: hashedPassword, isAvailable: false, bloodType
     }
