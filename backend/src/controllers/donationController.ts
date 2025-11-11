@@ -3,6 +3,8 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient()
+
+
 // GET /usuarios-disponiveis
 export const getAvailableDonors = async (req: Request, res: Response) => {
   try {
@@ -20,6 +22,7 @@ export const getAvailableDonors = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Erro ao buscar doadores disponíveis' });
   }
 };
+
 
 
 export const updateDisponibilidade = async (req: Request, res: Response) => {

@@ -5,17 +5,19 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { z } from 'zod';
+import { registerSchema, loginSchema } from "../schemas/auth.schema";
 
 const prisma = new PrismaClient();
 
 export const register = async (req: Request, res: Response) => {
-  const { name, email, password, bloodType } = req.body;
-
-
-  // Verifique se o campo bloodType foi fornecido
-  if (!bloodType) {
-    return res.status(400).json({ error: 'O tipo sanguíneo é obrigatório' });
+   // Validação com Zod
+  const parsed = registerSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: parsed.error.format() });
   }
+
+  const { name, email, password, bloodType } = parsed.data;
 
   const userExists = await prisma.user.findUnique({ where: { email } });
   if (userExists) return res.status(400).json({ error: 'Email já cadastrado' });
@@ -30,8 +32,20 @@ export const register = async (req: Request, res: Response) => {
   res.status(201).json({ message: "Usuario cadastrado com sucesso" });
 };
 
+
+
+
+
+
+
 export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  // Validação com Zod
+  const parsed = loginSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: parsed.error.format() });
+  }
+
+  const { email, password } = parsed.data;
 
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) {
