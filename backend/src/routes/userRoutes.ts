@@ -6,7 +6,7 @@ import { updatePassword } from '../controllers/userController';
 
 const router = Router();
 
-// Apenas administradores podem ver todos os usuários
+
 router.get('/users', authenticateToken, getAllUsers);
 
 
