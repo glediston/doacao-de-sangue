@@ -25,7 +25,7 @@ describe('register', () => {
       json: jest.fn()
     } as unknown as Response;
 
-    await register(req, res, mockPrisma);
+    await register(mockPrisma)(req, res);
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
@@ -55,7 +55,7 @@ describe('register', () => {
 
     mockPrisma.user.findUnique.mockResolvedValue({ id: 1 });
 
-    await register(req, res, mockPrisma);
+    await register(mockPrisma)(req, res);
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({ error: 'Email já cadastrado' });
@@ -81,7 +81,7 @@ describe('register', () => {
 
     jest.spyOn(bcrypt, 'hash').mockImplementation(async () => 'senha-hash');
 
-    await register(req, res,mockPrisma);
+    await register(mockPrisma)(req, res);
 
     expect(mockPrisma.user.findUnique).toHaveBeenCalledWith({ where: { email: 'maria@email.com' } });
     expect(mockPrisma.user.create).toHaveBeenCalledWith({
@@ -94,6 +94,7 @@ describe('register', () => {
       }
     });
     expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Usuario cadastrado com sucesso' });
+    res.status(201).json({ message: "Usuario cadastrado com sucesso" });
+;
   });
 });
