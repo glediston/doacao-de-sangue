@@ -84,4 +84,30 @@ export const updatePassword = async (req: Request, res: Response) => {
   }
 };
 
+export const deleteUser = async (req: Request, res: Response) => {
+  const userId = Number(req.params.id);
+  const requestingUserId = (req as any).userId;
+  const isAdmin = (req as any).isAdmin;
+
+  // só admin ou o próprio usuário podem deletar
+  if (!isAdmin && requestingUserId !== userId) {
+    return res.status(403).json({ error: "Acesso negado" });
+  }
+
+  try {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    await prisma.user.delete({ where: { id: userId } });
+
+    return res.status(200).json({ message: 'Usuário deletado com sucesso' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Erro ao apagar usuário' });
+  }
+};
+
+
 

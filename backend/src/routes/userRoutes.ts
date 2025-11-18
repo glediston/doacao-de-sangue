@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { getAllUsers, updateProfile } from '../controllers/userController';
 import { authenticateToken } from '../middlewares/authMiddleware';
 import { isAdmin } from '../middlewares/isAdminMiddleware';
-import { updatePassword } from '../controllers/userController';
+import { updatePassword, deleteUser} from '../controllers/userController';
 
 const router = Router();
 
@@ -16,6 +16,8 @@ router.put('/user/:id', authenticateToken, updateProfile);
 //atualizar somente senha
 router.put('/user/:id/senha', authenticateToken,updatePassword);
 
+
+router.delete('/users/:id', authenticateToken, deleteUser)
 
 
 export default router;
