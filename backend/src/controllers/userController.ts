@@ -2,7 +2,6 @@
 
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { isAdmin } from '../middlewares/isAdminMiddleware';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
