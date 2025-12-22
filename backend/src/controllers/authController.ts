@@ -37,7 +37,7 @@ export const register = (db: PrismaClient) => async (req: Request, res: Response
 
 
 
-export const login = async (req: Request, res: Response) => {
+export const login = (db: PrismaClient) => async (req: Request, res: Response) => {
   // Validação com Zod
   const parsed = loginSchema.safeParse(req.body);
   if (!parsed.success) {
@@ -46,7 +46,7 @@ export const login = async (req: Request, res: Response) => {
 
   const { email, password } = parsed.data;
 
-  const user = await prisma.user.findUnique({ where: { email } });
+  const user = await db.user.findUnique({ where: { email } });
   if (!user) {
     return res.status(401).json({ error: 'Credenciais inválidas' });
   }
@@ -54,7 +54,7 @@ export const login = async (req: Request, res: Response) => {
   const passwordMatch = await bcrypt.compare(password, user.password);
   if (!passwordMatch) return res.status(401).json({ error: 'Credenciais inválidas' });
 
-  const token = jwt.sign({ userId: user.id, isAdmin: user.isAdmin }, process.env.JWT_SECRET!, { expiresIn: '1d' });
+  const token = jwt.sign({ userId: user.id, isAdmin: user.isAdmin }, process.env.JWT_SECRET!, { expiresIn: '1h' });
 
 
 
