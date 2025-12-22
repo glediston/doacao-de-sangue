@@ -7,3 +7,5 @@ jest.mock('bcrypt', () => ({
 }));
 
 export default bcrypt;
+
+
