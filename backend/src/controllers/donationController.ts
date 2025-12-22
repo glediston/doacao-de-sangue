@@ -6,9 +6,9 @@ const prisma = new PrismaClient()
 
 
 // GET /usuarios-disponiveis
-export const getAvailableDonors = async (req: Request, res: Response) => {
+export const getAvailableDonors = (db: PrismaClient) =>async (req: Request, res: Response) => {
   try {
-    const donors = await prisma.user.findMany({
+    const donors = await db.user.findMany({
       where: { isAvailable: true },
       select: {
         id: true,
@@ -25,12 +25,12 @@ export const getAvailableDonors = async (req: Request, res: Response) => {
 
 
 
-export const updateDisponibilidade = async (req: Request, res: Response) => {
+export const updateDisponibilidade = (db: PrismaClient) => async (req: Request, res: Response) => {
   const userId = Number(req.params.id);
   const { isAvailable } = req.body;
 
   try {
-    const updatedUser = await prisma.user.update({
+    const updatedUser = await db.user.update({
       where: { id: userId },
       data: { isAvailable }
     });
