@@ -1,80 +1,74 @@
 
-import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-import { getAvailableDonorsSchema } from "../schemas/donnors/getAvailableDonors.schema";
-import { updateDisponibilidadeSchema } from "../schemas/donnors/updateDisponibilidade.schema";
+//donationController
 
-const prisma = new PrismaClient()
+import { Request, Response } from "express";
+import { donationRepository } from "../repositories/donation.repository";
+import { createDonationSchema } from "../schemas/donation/createDonationSchema";
+import { getDonationHistorySchema } from "../schemas/donation/getDonationHistorySchema";
+import { getLastDonationSchema } from "../schemas/donation/getLastDonationSchema";
 
+// Registrar doação
+export const createDonation = async (req: Request, res: Response) => {
+  
+  const parsed = createDonationSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: parsed.error.format() });
+  }
 
-export const getAvailableDonors =
-  (prisma: PrismaClient) =>
-  async (req: Request, res: Response) => {
-    const { isAvailable } = req.query;
+  try {
+  const { donorId, recipient, location, notes, quantity } = parsed.data;
 
-    // ✅ Validação da query
-    if (
-      isAvailable !== undefined &&
-      isAvailable !== 'true' &&
-      isAvailable !== 'false'
-    ) {
-      return res.status(400).json({
-        error: 'Query isAvailable inválida',
-      });
-    }
-
-    try {
-      const users = await prisma.user.findMany({
-        where:
-          isAvailable === 'true'
-            ? { isAvailable: true }
-            : {},
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          isAvailable: true,
-        },
-      });
-
-      return res.status(200).json(users);
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        error: 'Erro interno do servidor',
-      });
-    }
-  };
+   const donation = await donationRepository.create(
+  donorId,
+  recipient,
+  location,
+  notes,
+  quantity
+);
 
 
-export const updateDisponibilidade =
-  (db: PrismaClient) => async (req: Request, res: Response) => {
-    const parsed = updateDisponibilidadeSchema.safeParse({
-      params: req.params,
-      body: req.body,
+    return res.status(201).json({
+      message: "Doação registrada com sucesso",
+      donation,
     });
+  } catch (error) {
+    console.error("Erro em createDonation:", error);
+    return res.status(500).json({ error: "Erro interno ao registrar doação" });
+  }
+};
 
-   if (!parsed.success) {
-  return res.status(400).json({
-    error: parsed.error.issues[0]?.message ?? "Dados inválidos",
-  });
-}
+// Histórico de doações
+export const getDonationHistory = async (req: Request, res: Response) => {
+  const parsed = getDonationHistorySchema.safeParse(req.params);
+  if (!parsed.success) {
+    return res.status(400).json({ error: parsed.error.format() });
+  }
 
+  const donorId = parsed.data.userId;
 
-    const userId = Number(parsed.data.params.id);
-    const { isAvailable } = parsed.data.body;
+  try {
+    const donations = await donationRepository.findByUser(donorId);
+    return res.json(donations);
+  } catch (error) {
+    console.error("Erro em getDonationHistory:", error);
+    return res.status(500).json({ error: "Erro interno ao buscar histórico" });
+  }
+};
 
-    try {
-      const updatedUser = await db.user.update({
-        where: { id: userId },
-        data: { isAvailable },
-      });
+// Última doação
+export const getLastDonation = async (req: Request, res: Response) => {
+  const parsed = getLastDonationSchema.safeParse(req.params);
+  if (!parsed.success) {
+    return res.status(400).json({ error: parsed.error.format() });
+  }
 
-      res.json({
-        message: "Disponibilidade atualizada com sucesso",
-        user: updatedUser,
-      });
-    } catch (error) {
-      res.status(400).json({ error: "Erro ao atualizar disponibilidade" });
-    }
-  };
+  const donorId = parsed.data.userId;
+
+  try {
+    const donation = await donationRepository.findLastDonation(donorId);
+    return res.json(donation);
+  } catch (error) {
+    console.error("Erro em getLastDonation:", error);
+    return res.status(500).json({ error: "Erro interno ao buscar última doação" });
+  }
+};

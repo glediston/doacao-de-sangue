@@ -1,16 +1,11 @@
-
-import { Router } from 'express';
-import { getAvailableDonors, updateDisponibilidade } from '../controllers/donationController';
-import { authenticateToken } from '../middlewares/authMiddleware';
+import { Router } from "express";
+import { createDonation, getDonationHistory, getLastDonation } from "../controllers/donationController";
+import { authenticateToken } from "../middlewares/authMiddleware";
 
 const router = Router();
 
-
-router.get('/usuarios-disponiveis', authenticateToken ,getAvailableDonors);
-
-// rota para dispomibilidade do doador
-router.put('/usuarios/:id/disponibilidade', authenticateToken, updateDisponibilidade);
-
-
+router.post("/donations", authenticateToken, createDonation);
+router.get("/donations/history/:userId", authenticateToken, getDonationHistory);
+router.get("/donations/last/:userId", authenticateToken, getLastDonation);
 
 export default router;

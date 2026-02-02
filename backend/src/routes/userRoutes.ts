@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { getAllUsers, updateProfile } from '../controllers/userController';
 import { authenticateToken } from '../middlewares/authMiddleware';
-import { isAdmin } from '../middlewares/isAdminMiddleware';
 import { updatePassword, deleteUser} from '../controllers/userController';
 
 const router = Router();

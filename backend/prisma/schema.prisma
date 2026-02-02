@@ -16,12 +16,62 @@ datasource db {
 
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  email    String @unique
-  password String
-  isAdmin   Boolean  @default(false) // novo campo para admin
-   isAvailable Boolean @default(false) 
-   bloodType String?
+  id           Int          @id @default(autoincrement())
+  name         String
+  email        String       @unique
+  password     String
+  role         Role         @default(USER)
+  bloodType    BloodType?   // 👈 ADICIONE ISSO
+  availability Availability @default(INDISPONIVEL)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  donations    Donation[]
+}
+
+
+model RequestBlood {
+  id        Int      @id @default(autoincrement())
+  requester String   // nome de quem precisa
+  location  String   // hospital/local
+   bloodType BloodType
+  message   String?  // observações
   createdAt DateTime @default(now())
 }
+
+
+model Donation {
+  id          Int      @id @default(autoincrement())
+  donorId     Int
+  donor       User     @relation(fields: [donorId], references: [id])
+  recipient   String?  // hospital ou campanha
+  quantity    Float?   // padrão: 450 ml
+  location    String?  // local da doação
+  notes       String?  // observações extras
+  date        DateTime @default(now())
+}
+
+
+enum Availability { 
+  INDISPONIVEL
+   DISPONIVEL 
+   PRECISANDO_DOAR 
+   }
+
+
+  enum Role {
+  ADMIN
+  USER
+}
+
+
+enum BloodType {
+  A_POS
+  A_NEG
+  B_POS
+  B_NEG
+  AB_POS
+  AB_NEG
+  O_POS
+  O_NEG
+}
+

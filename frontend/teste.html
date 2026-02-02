@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Painel do Doador</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      background-color: #f9f9f9;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #c62828;
+      color: white;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin: 15px 0;
+      font-weight: bold;
+    }
+
+    .main {
+      flex: 1;
+      padding: 30px;
+    }
+
+    .welcome {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #c62828;
+    }
+
+    .highlight {
+      font-size: 20px;
+      font-weight: bold;
+      color: #c62828;
+    }
+
+    .alert {
+      background-color: #ffebee;
+      color: #c62828;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Menu</h2>
+    <a href="#">Buscar Doadores</a>
+    <a href="#">Alterar Informações</a>
+    <a href="#">Registrar Doações</a>
+    <a href="#">Alterar Disponibilidade</a>
+    <a href="#">Sair</a>
+  </div>
+
+  <div class="main">
+    <div class="welcome">Bem-vindo, Doador João</div>
+
+    <div class="card">
+      <h3>Tipo Sanguíneo</h3>
+      <div class="highlight">O-</div>
+    </div>
+
+    <div class="card">
+      <h3>Última Doação</h3>
+      <p>8 jun, 2023 — Hemocentro Regional</p>
+    </div>
+
+    <div class="card">
+      <h3>Próxima Doação</h3>
+      <p>Você poderá doar novamente em 56 dias</p>
+      <div class="alert">Já se passaram 90 dias! Você já pode doar novamente 🎉</div>
+    </div>
+
+    <div class="card">
+      <h3>Histórico de Doações</h3>
+      <ul>
+        <li>10 abr, 2023 — Hospital Central</li>
+        <li>15 jan, 2023 — Unidade Municipal</li>
+        <li>23 out, 2022 — Hemocentro Regional</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
