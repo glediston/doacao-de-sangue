@@ -39,7 +39,7 @@ describe("Auth Controller", () => {
       (bcrypt.hash as jest.Mock).mockResolvedValue("hashedPassword");
 
       const response = await request(app)
-        .post("/auth/register")
+        .post("/api/auth/register")
         .send({
           name: "Glediston",
           email: "glediston@gmail.com",
@@ -81,7 +81,7 @@ describe("POST /auth/login", () => {
     (jwt.sign as jest.Mock).mockReturnValue("fakeToken");
 
     const response = await request(app)
-      .post("/auth/login")
+      .post("/api/auth/login")
       .send({
         email: "glediston@gmail.com",
         password: "123456"

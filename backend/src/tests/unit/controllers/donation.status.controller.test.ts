@@ -39,7 +39,7 @@ describe("Donation Status - Regras de Negócio", () => {
     (userRepository.findById as jest.Mock).mockResolvedValue({ id: 123, gender: Gender.MALE });
     (donationRepository.findLastDonation as jest.Mock).mockResolvedValue(null);
 
-    const response = await request(app).get("/api/donations/status");
+    const response = await request(app).get("/api/status");
 
     expect(response.status).toBe(200);
     expect(response.body.canDonate).toBe(true);
@@ -56,7 +56,7 @@ describe("Donation Status - Regras de Negócio", () => {
 
     (donationRepository.findLastDonation as jest.Mock).mockResolvedValue({ date: lastDate });
 
-    const response = await request(app).get("/api/donations/status");
+    const response = await request(app).get("/api/status");
 
     expect(response.body.canDonate).toBe(false);
     expect(response.body.daysRemaining).toBe(15); // 60 - 45 = 15
@@ -72,7 +72,7 @@ describe("Donation Status - Regras de Negócio", () => {
 
     (donationRepository.findLastDonation as jest.Mock).mockResolvedValue({ date: lastDate });
 
-    const response = await request(app).get("/api/donations/status");
+    const response = await request(app).get("/api/status");
 
     expect(response.body.canDonate).toBe(true);
     expect(response.body.daysRemaining).toBe(0);

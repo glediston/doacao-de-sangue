@@ -6,7 +6,7 @@ import { getDonationStatus } from "../controllers/donationStatusController";
 const router = Router();
 
 router.get(
-  "/status",authenticateToken, getDonationStatus
+  "/",authenticateToken, getDonationStatus
 );
 
 export default router;

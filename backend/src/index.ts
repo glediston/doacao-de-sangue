@@ -33,12 +33,12 @@ app.get("/", (req, res) => {
 
 // Padronização das Rotas (Sugestão de boas práticas)
 // No src/index.ts, altere para:
-app.use('/auth', authRoutes);
-app.use('/users', userRoutes);
-app.use('/donors', donorRoutes);
-app.use('/requests', requestRoutes);
-app.use('/donations', donationRoutes);
-app.use('/status', statusRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/donors', donorRoutes);
+app.use('/api/requests', requestRoutes);
+app.use('/api/donations', donationRoutes);
+app.use('/api/status', statusRoutes);
 
 const PORT = process.env.PORT || 3000;
 
