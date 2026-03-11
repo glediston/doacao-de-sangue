@@ -1,16 +1,17 @@
-
-import { Router } from 'express';
-import { getAvailableDonors, updateDisponibilidade } from '../controllers/donationController';
-import { authenticateToken } from '../middlewares/authMiddleware';
+// src/routes/donationRoutes.ts
+import { Router } from "express";
+import { createDonation, getMyDonations, getMyLastDonation } from "../controllers/donationController";
+import { authenticateToken } from "../middlewares/authMiddleware";
 
 const router = Router();
 
+// A rota final será: POST /api/donations
+router.post("/", authenticateToken, createDonation);
 
-router.get('/usuarios-disponiveis', authenticateToken ,getAvailableDonors);
+// A rota final será: GET /api/donations/history
+router.get("/history", authenticateToken, getMyDonations);
 
-// rota para dispomibilidade do doador
-router.put('/usuarios/:id/disponibilidade', authenticateToken, updateDisponibilidade);
-
-
+// A rota final será: GET /api/donations/last
+router.get("/last", authenticateToken, getMyLastDonation);
 
 export default router;

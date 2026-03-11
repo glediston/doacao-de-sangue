@@ -1,38 +1,41 @@
 
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Painel do Admin</title>
-  <link rel="stylesheet" href="css/admin.css" />
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Admin - BloodCare</title>
+  <link rel="stylesheet" href="./css/dashboard.css">
 </head>
 <body>
-  <div class="sidebar">
-    <h2>Admin Panel</h2>
-    <button id="btnHome">🏠 Home</button>
-    <button id="btnBuscar">🔍 Buscar Usuários</button>
-    <button id="btnLogout">🚪 Sair</button>
-  </div>
 
-  <div class="main">
-    <h1>Lista de Usuários</h1>
-    <div class="user-list" id="userList"></div>
-  </div>
+<div class="dashboard">
 
-  <div class="modal" id="updateModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeUpdateModal()">&times;</span>
-      <h2>Atualizar Usuário</h2>
-      <input type="text" id="upd-name" placeholder="Novo nome" />
-      <input type="email" id="upd-email" placeholder="Novo e-mail" />
-      <input type="password" id="upd-password" placeholder="Nova senha (opcional)" />
-      <button id="btnSaveUpdate">Salvar Alterações</button>
+  <aside class="sidebar">
+    <div class="logo">
+      <h2>👑 Admin</h2>
     </div>
-  </div>
 
-  <script src="js/admin.js"></script>
+    <ul class="menu">
+      <li class="menu-item" onclick="loadAdminPage('overview', this)">📊 Visão Geral</li>
+      <li class="menu-item" onclick="loadAdminPage('users', this)">👥 Usuários</li>
+      <li class="menu-item" onclick="loadAdminPage('requests', this)">🩸 Pedidos</li>
+      <li onclick="logout()">🚪 Sair</li>
+    </ul>
+  </aside>
+
+  <main class="content">
+    <div id="adminContent">
+      <h1>Painel Administrativo</h1>
+    </div>
+  </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./js/api.js"></script>
+<script src="./js/guard.js"></script>
+<script src="./js/admin.js"></script>
+
 </body>
 </html>

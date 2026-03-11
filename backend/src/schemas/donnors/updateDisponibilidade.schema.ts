@@ -1,18 +1,20 @@
 
 
-
 import { z } from "zod";
 
 export const updateDisponibilidadeSchema = z.object({
   params: z.object({
-    id: z.string().regex(/^\d+$/, "ID do usuário deve ser numérico"),
+    id: z.coerce.number().int().positive(),
   }),
-
   body: z.object({
-    isAvailable: z
-      .boolean()
-      .refine(val => typeof val === "boolean", {
-        message: "isAvailable deve ser boolean",
-      }),
+    availability: z.enum([
+      "INDISPONIVEL",
+      "DISPONIVEL",
+      "PRECISANDO_DOAR",
+    ]),
   }),
 });
+
+export type UpdateDisponibilidadeInput = z.infer<
+  typeof updateDisponibilidadeSchema
+>;

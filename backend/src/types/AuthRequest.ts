@@ -1,0 +1,8 @@
+//types/AuthRequest
+
+import { Request } from "express";
+
+export interface AuthRequest extends Request {
+  userId?: number;
+  role?: 'ADMIN' | 'USER';
+}

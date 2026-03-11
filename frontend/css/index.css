@@ -1,0 +1,46 @@
+header {
+  background: #c0392b;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+nav button {
+  margin-left: 10px;
+  background: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.hero {
+  padding: 80px;
+  text-align: center;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  width: 300px;
+  margin: 100px auto;
+  border-radius: 8px;
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}

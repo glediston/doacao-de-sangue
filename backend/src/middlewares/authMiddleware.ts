@@ -1,32 +1,38 @@
 
+//authMiddleware
 
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { AuthRequest } from "../types/AuthRequest";
 
-interface AuthenticatedRequest extends Request {
-  userId?: string;
-  isAdmin?: boolean;
+interface JwtPayload {
+  userId: number;
+  role: 'ADMIN' | 'USER';
 }
 
 export const authenticateToken = (
-  req: AuthenticatedRequest,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.split(" ")[1];
 
   if (!token) {
-    return res.status(401).json({ error: 'Token não fornecido' });
+    return res.status(401).json({ error: "Token não fornecido" });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET!, (err, decoded: any) => {
-    if (err) {
-      return res.status(403).json({ error: 'Token inválido ou expirado' });
-    }
+  try {
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET!
+    ) as JwtPayload;
 
     req.userId = decoded.userId;
-    req.isAdmin = decoded.isAdmin; // ✅ adiciona isAdmin ao request
+    req.role = decoded.role;
+
     next();
-  });
+  } catch {
+    return res.status(403).json({ error: "Token inválido ou expirado" });
+  }
 };

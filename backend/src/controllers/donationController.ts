@@ -1,80 +1,53 @@
-
-import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-import { getAvailableDonorsSchema } from "../schemas/donnors/getAvailableDonors.schema";
-import { updateDisponibilidadeSchema } from "../schemas/donnors/updateDisponibilidade.schema";
-
-const prisma = new PrismaClient()
+import { Response } from "express";
+import { AuthRequest } from "../types/AuthRequest";
+import { donationRepository } from "../repositories/donation.repository";
+import { createDonationSchema } from "../schemas/donation/createDonationSchema";
 
 
-export const getAvailableDonors =
-  (prisma: PrismaClient) =>
-  async (req: Request, res: Response) => {
-    const { isAvailable } = req.query;
+//Cria um registro de doação para o usuário logado
+export const createDonation = async (req: AuthRequest, res: Response) => {
+  const parsed = createDonationSchema.safeParse(req.body);
 
-    // ✅ Validação da query
-    if (
-      isAvailable !== undefined &&
-      isAvailable !== 'true' &&
-      isAvailable !== 'false'
-    ) {
-      return res.status(400).json({
-        error: 'Query isAvailable inválida',
-      });
-    }
+  if (!parsed.success) {
+    return res.status(400).json(parsed.error.format());
+  }
 
-    try {
-      const users = await prisma.user.findMany({
-        where:
-          isAvailable === 'true'
-            ? { isAvailable: true }
-            : {},
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          isAvailable: true,
-        },
-      });
+  try {
+    const donation = await donationRepository.create(
+      req.userId!, // vem do middleware de auth
+      parsed.data
+    );
 
-      return res.status(200).json(users);
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        error: 'Erro interno do servidor',
-      });
-    }
-  };
+    return res.status(201).json(donation);
+  } catch {
+    return res.status(500).json({ error: "Erro ao registrar doação" });
+  }
+};
 
 
-export const updateDisponibilidade =
-  (db: PrismaClient) => async (req: Request, res: Response) => {
-    const parsed = updateDisponibilidadeSchema.safeParse({
-      params: req.params,
-      body: req.body,
-    });
+//Busca todas as doações do usuário logado.
+export const getMyDonations = async (req: AuthRequest, res: Response) => {
+  try {
+    const donations = await donationRepository.findByUser(req.userId!);
+    return res.json(donations);
+  } catch {
+    return res.status(500).json({ error: "Erro ao buscar doações" });
+  }
+};
 
-   if (!parsed.success) {
-  return res.status(400).json({
-    error: parsed.error.issues[0]?.message ?? "Dados inválidos",
-  });
-}
-
-
-    const userId = Number(parsed.data.params.id);
-    const { isAvailable } = parsed.data.body;
-
-    try {
-      const updatedUser = await db.user.update({
-        where: { id: userId },
-        data: { isAvailable },
-      });
-
-      res.json({
-        message: "Disponibilidade atualizada com sucesso",
-        user: updatedUser,
-      });
-    } catch (error) {
-      res.status(400).json({ error: "Erro ao atualizar disponibilidade" });
-    }
-  };
+//Busca apenas a última doação do usuário.
+export const getMyLastDonation = async (
+  req: AuthRequest,
+  res: Response
+) => {
+  try {
+    const donation = await donationRepository.findLastDonation(
+      req.userId!
+    );
+    return res.json(donation);
+  } catch {
+    return res
+      .status(500)
+      .json({ error: "Erro ao buscar última doação" });
+  }
+};
