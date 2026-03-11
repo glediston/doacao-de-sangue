@@ -11,7 +11,10 @@ export const updateProfileSchema = z
     availability: z.enum(["DISPONIVEL", "INDISPONIVEL"]).optional(),
   })
   .transform((data) =>
-   Object.fromEntries(
-     Object.entries(data).filter(([_, value]) => value !== undefined)
-   )
- );
+    Object.fromEntries(
+      Object.entries(data).filter(([_, value]) => value !== undefined)
+    )
+  );
+
+// 👇 INFERÊNCIA NO MESMO ARQUIVO
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;

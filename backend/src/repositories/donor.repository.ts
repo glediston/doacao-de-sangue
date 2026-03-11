@@ -1,13 +1,13 @@
-
-
 import { prisma } from "../prisma/client";
 import { Availability } from "@prisma/client";
 
 export const donorRepository = {
-  // Buscar doadores disponíveis (filtra pelo enum Availability)
-  async findAvailable(status?: Availability) {
+  // 🔒 SEMPRE retorna apenas disponíveis
+  async findAvailable() {
     return prisma.user.findMany({
-      where: status ? { availability: status } : {},
+      where: {
+        availability: Availability.DISPONIVEL,
+      },
       select: {
         id: true,
         name: true,
@@ -17,8 +17,7 @@ export const donorRepository = {
     });
   },
 
-  // Atualizar disponibilidade de um usuário
-  async updateDisponibilidade(userId: number, status: Availability) {
+  async updateAvailability(userId: number, status: Availability) {
     return prisma.user.update({
       where: { id: userId },
       data: { availability: status },

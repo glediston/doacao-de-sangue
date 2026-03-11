@@ -1,21 +1,18 @@
-
-
-import { Request, Response } from "express";
+import { Response } from "express";
 import { donorRepository } from "../repositories/donor.repository";
-import { getAvailableDonorsSchema } from "../schemas/donnors/getAvailableDonors.schema";
-import { updateDisponibilidadeSchema } from "../schemas/donnors/updateDisponibilidade.schema";
+import { updateDisponibilidadeSchema,} from "../schemas/donnors/updateDisponibilidade.schema";
+import { AuthRequest } from "../types/AuthRequest";
 
 
-// busca doadores disponiveis
-export const getAvailableDonors = async (req: Request, res: Response) => {
-  const parsed = getAvailableDonorsSchema.safeParse(req.query);
-  if (!parsed.success) {
-    return res.status(400).json({ error: parsed.error.format() });
-  }
-
+//Lista usuários com availability = DISPONIVEL.
+export const getAvailableDonors = async (
+  req: AuthRequest,
+  res: Response
+) => {
   try {
-    const donors = await donorRepository.findAvailable(parsed.data.availability);
-    return res.status(200).json(donors);
+    const donors = await donorRepository.findAvailable();
+
+    return res.json(donors);
   } catch (error) {
     console.error("Erro em getAvailableDonors:", error);
     return res.status(500).json({ error: "Erro interno do servidor" });
@@ -23,28 +20,27 @@ export const getAvailableDonors = async (req: Request, res: Response) => {
 };
 
 
-//atualizar disponibilidade
-export const updateDisponibilidade = async (req: Request, res: Response) => {
+//Atualiza a disponibilidade de um usuário.
+export const updateDisponibilidade = async (
+  req: AuthRequest,
+  res: Response
+) => {
   const parsed = updateDisponibilidadeSchema.safeParse({
     params: req.params,
     body: req.body,
   });
 
   if (!parsed.success) {
-    return res.status(400).json({ error: parsed.error.format() });
+    return res.status(400).json(parsed.error.format());
   }
 
-  const userId = Number(parsed.data.params.id);
-  const { availability } = parsed.data.body;
+ 
+  const {
+    params: { id },
+    body: { availability },
+  } = parsed.data;
 
-  try {
-    const updatedUser = await donorRepository.updateDisponibilidade(userId, availability);
-    return res.json({
-      message: "Disponibilidade atualizada com sucesso",
-      user: updatedUser,
-    });
-  } catch (error) {
-    console.error("Erro em updateDisponibilidade:", error);
-    return res.status(400).json({ error: "Erro ao atualizar disponibilidade" });
-  }
+  await donorRepository.updateAvailability(id, availability);
+
+  return res.status(200).json({ message: "Disponibilidade atualizada" });
 };

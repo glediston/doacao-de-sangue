@@ -4,49 +4,85 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Doe Sangue - Salve Vidas</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <title>Doação de Sangue</title>
+  <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
-  <header>
-    <h1 class="logo">❤️ Doe Sangue</h1>
-    <div class="nav-buttons">
-      <button id="btnLogin">Entrar</button>
-      <button id="btnRegister">Registrar</button>
-    </div>
-  </header>
 
-  <main class="hero">
-    <h2>Uma gota de sangue pode mudar uma vida inteira.</h2>
-    <p>Doe sangue, doe esperança. Seja a diferença que alguém precisa hoje.</p>
-  </main>
+<header>
+  <h1>❤️ Doação de Sangue</h1>
+  <nav>
+    <button onclick="openModal('login')">Login</button>
+    <button onclick="openModal('register')">Cadastrar</button>
+  </nav>
+</header>
 
-  <!-- Modal de Login -->
-  <div class="modal" id="loginModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('loginModal')">&times;</span>
-      <h2>Entrar</h2>
-      <input type="email" id="login-email" placeholder="Email" />
-      <input type="password" id="login-password" placeholder="Senha" />
-      <button onclick="login()">Entrar</button>
-      <p>Ainda não tem conta? <a href="#" onclick="switchToRegister()">Registrar</a></p>
-    </div>
+<main>
+  <section class="hero">
+    <h2>Doe sangue. Salve vidas.</h2>
+    <p>
+      Uma única doação pode salvar até 4 vidas.
+      Seja um herói hoje.
+    </p>
+  </section>
+</main>
+
+<!-- MODAL LOGIN -->
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <h3>Login</h3>
+
+    <input id="loginEmail" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Senha">
+
+    <p class="error" id="loginError"></p>
+
+    <button onclick="login()">Entrar</button>
+    <button onclick="closeModal()">Cancelar</button>
   </div>
+</div>
 
-  <!-- Modal de Registro -->
-  <div class="modal" id="registerModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('registerModal')">&times;</span>
-      <h2>Registrar</h2>
-      <input type="text" id="reg-name" placeholder="Nome completo" />
-      <input type="email" id="reg-email" placeholder="Email" />
-      <input type="password" id="reg-password" placeholder="Senha" />
-      <button onclick="register()">Registrar</button>
-      <p>Já tem conta? <a href="#" onclick="switchToLogin()">Entrar</a></p>
-    </div>
+<!-- MODAL REGISTER -->
+<div class="modal" id="registerModal">
+  <div class="modal-content">
+    <h3>Cadastrar</h3>
+
+    <input id="regName" placeholder="Nome">
+    <input id="regEmail" placeholder="Email">
+    <input id="regPassword" type="password" placeholder="Senha">
+
+    <select id="regGender">
+      <option value="">Sexo</option>
+      <option value="MALE">Masculino</option>
+      <option value="FEMALE">Feminino</option>
+    </select>
+
+    <select id="regBlood">
+      <option value="">Tipo sanguíneo</option>
+      <option value="A_POS">A+</option>
+      <option value="A_NEG">A-</option>
+      <option value="B_POS">B+</option>
+      <option value="B_NEG">B-</option>
+      <option value="AB_POS">AB+</option>
+      <option value="AB_NEG">AB-</option>
+      <option value="O_POS">O+</option>
+      <option value="O_NEG">O-</option>
+    </select>
+
+    <p class="error" id="registerError"></p>
+
+    <button onclick="register()">Cadastrar</button>
+    <button onclick="closeModal()">Cancelar</button>
   </div>
+</div>
 
-  <script src="js/script.js"></script>
+<!-- AXIOS -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script src="./js/api.js"></script>
+<script src="./js/modal.js"></script>
+<script src="./js/auth.js"></script>
+
 </body>
 </html>

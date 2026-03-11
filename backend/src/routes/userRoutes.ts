@@ -1,22 +1,24 @@
 import { Router } from 'express';
-import { getAllUsers, updateProfile } from '../controllers/userController';
+import {  updateProfile,
+  updatePassword,
+  getAllUsers, } from '../controllers/userController';
 import { authenticateToken } from '../middlewares/authMiddleware';
-import { updatePassword, deleteUser} from '../controllers/userController';
-
+import { onlyAdmin } from "../middlewares/onlyAdmin"
+import { selfOrAdmin } from '../middlewares/selfOrAdmin';
 const router = Router();
 
 
-router.get('/users', authenticateToken, getAllUsers);
+
 
 
 // Qualquer usuário logado pode atualizar seu perfil
-router.put('/user/:id', authenticateToken, updateProfile);
+router.put('/user/:id', authenticateToken, selfOrAdmin ,updateProfile);
 
 //atualizar somente senha
-router.put('/user/:id/senha', authenticateToken,updatePassword);
+router.put('/user/:id/senha', authenticateToken,selfOrAdmin,updatePassword);
 
 
-router.delete('/users/:id', authenticateToken, deleteUser)
+router.get("/users", authenticateToken, onlyAdmin, getAllUsers);
 
 
 export default router;

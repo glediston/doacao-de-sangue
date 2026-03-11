@@ -1,20 +1,15 @@
 import { prisma } from "../prisma/client";
+import { CreateDonationInput } from "../schemas/donation/createDonationSchema";
 
 export const donationRepository = {
-  async create(
-    donorId: number,
-    recipient?: string,
-    location?: string,
-    notes?: string,
-    quantity: number = 450
-  ) {
+  async create(donorId: number, data: CreateDonationInput) {
     return prisma.donation.create({
       data: {
         donorId,
-        recipient: recipient ?? null, 
-        location: location ?? null,   
-        notes: notes ?? null,         
-        quantity,
+        recipient: data.recipient ?? null,
+        location: data.location ?? null,
+        notes: data.notes ?? null,
+        quantity: data.quantity ?? 450,
       },
     });
   },
@@ -32,4 +27,5 @@ export const donationRepository = {
       orderBy: { date: "desc" },
     });
   },
-};
+};  
+

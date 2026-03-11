@@ -1,6 +1,8 @@
-// src/repositories/user.repository.ts
 import { prisma } from "../prisma/client";
-import { Prisma, Availability } from "@prisma/client";
+import { Availability } from "@prisma/client";
+import { UpdateProfileInput } from "../schemas/user/updateProfile.schema";
+
+
 
 
 export const userRepository = {
@@ -10,7 +12,12 @@ export const userRepository = {
         disponiveis === "true"
           ? { availability: Availability.DISPONIVEL }
           : {},
-      select: { id: true, name: true, email: true, availability: true },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        availability: true,
+      },
     });
   },
 
@@ -20,7 +27,9 @@ export const userRepository = {
     });
   },
 
-  async updateProfile(userId: number, data: Prisma.UserUpdateInput) {
+
+
+  async updateProfile(userId: number, data: UpdateProfileInput) {
     return prisma.user.update({
       where: { id: userId },
       data,
@@ -38,8 +47,11 @@ export const userRepository = {
     return prisma.user.update({
       where: { id: userId },
       data: { password },
+      select: { id: true }, // só retorna o id
     });
   },
+
+
 
   async delete(userId: number) {
     return prisma.user.delete({

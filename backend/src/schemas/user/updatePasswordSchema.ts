@@ -1,12 +1,11 @@
 
-
 import { z } from "zod";
 
 export const updatePasswordSchema = z.object({
   senhaAtual: z
     .string()
     .min(6, "Senha atual deve ter no mínimo 6 caracteres")
-    .optional(), // Admin não precisa enviar senha atual
+    .optional(),
 
   senhaNova: z
     .string()
@@ -16,3 +15,6 @@ export const updatePasswordSchema = z.object({
       "Senha deve conter letra maiúscula, minúscula, número e símbolo"
     ),
 });
+
+// 👇 inferência no mesmo arquivo
+export type UpdatePasswordInput = z.infer<typeof updatePasswordSchema>;

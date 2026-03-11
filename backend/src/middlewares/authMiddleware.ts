@@ -1,3 +1,6 @@
+
+//authMiddleware
+
 import { Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { AuthRequest } from "../types/AuthRequest";
