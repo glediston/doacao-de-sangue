@@ -1,11 +1,11 @@
+
+
+
+
 const api = axios.create({
-  baseURL:
-    window.location.hostname === "localhost"
-      ? "http://localhost:3000"
-      : "https://bloodcare-api.onrender.com",
-  headers: {
-    "Content-Type": "application/json"
-  }
+  baseURL: window.location.hostname.includes("localhost") || window.location.hostname.includes("127.0.0.1")
+    ? "http://localhost:3000"
+    : "https://bloodcare-api.onrender.com",
 });
 
 api.interceptors.request.use((config) => {
