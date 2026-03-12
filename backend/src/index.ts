@@ -14,16 +14,7 @@ dotenv.config();
 const app = express();
 
 // Middlewares
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-app.use(express.json());
-
-// Rota de Check (Health Check)
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.json({
@@ -33,8 +24,8 @@ app.get("/", (req, res) => {
 
 // Padronização das Rotas (Sugestão de boas práticas)
 // No src/index.ts, altere para:
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
+app.use('/auth', authRoutes);
+app.use('/api', userRoutes);
 app.use('/api/donors', donorRoutes);
 app.use('/api/requests', requestRoutes);
 app.use('/api/donations', donationRoutes);

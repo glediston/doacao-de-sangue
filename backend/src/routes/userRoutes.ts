@@ -18,7 +18,7 @@ router.put('/user/:id', authenticateToken, selfOrAdmin ,updateProfile);
 router.put('/user/:id/senha', authenticateToken,selfOrAdmin,updatePassword);
 
 
-router.get("/users", authenticateToken, onlyAdmin, getAllUsers);
+router.get("/users", authenticateToken, getAllUsers);
 
 
 export default router;
