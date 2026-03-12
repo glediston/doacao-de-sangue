@@ -11,14 +11,11 @@
     try {
       const parsed = registerSchema.safeParse(req.body);
 
+if (!parsed.success) {
+  return res.status(400).json(parsed.error.format());
+}
 
-      if (!parsed.success) {
-    return res.status(400).json({
-      errors: parsed.error.format(),
-    });
-  }
-
-      const data = parsed.data;
+const data = parsed.data;
 
       const { name, email, password, gender, bloodType } = data;
 
