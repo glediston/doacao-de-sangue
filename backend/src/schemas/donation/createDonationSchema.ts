@@ -6,7 +6,7 @@ export const createDonationSchema = z.object({
   recipient: z.string().optional(),
   location: z.string().optional(),
   notes: z.string().optional(),
-  quantity: z.number().positive().optional(),
+  quantity: z.coerce.number().positive().optional()
 });
 
 export type CreateDonationInput = z.infer<typeof createDonationSchema>;
