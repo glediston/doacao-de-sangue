@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
 
 // Padronização das Rotas (Sugestão de boas práticas)
 // No src/index.ts, altere para:
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api', userRoutes);
 app.use('/api/donors', donorRoutes);
 app.use('/api/requests', requestRoutes);
