@@ -143,3 +143,173 @@
   border-radius: 8px;
   cursor: pointer;
 }
+
+
+/* =========================================
+   BOTÕES (Usados no JS)
+   ========================================= */
+.btn-primary, .btn-secondary, .btn-save, .btn-cancel {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-primary {
+  background-color: #c0392b; /* Vermelho BloodCare */
+  color: white;
+}
+.btn-primary:hover { background-color: #a93226; }
+
+.btn-secondary {
+  background-color: #2563eb; /* Azul */
+  color: white;
+}
+.btn-secondary:hover { background-color: #1d4ed8; }
+
+.btn-save {
+  background-color: #16a085; /* Verde */
+  color: white;
+}
+.btn-save:hover { background-color: #117a65; }
+
+.btn-cancel {
+  background-color: #95a5a6; /* Cinza */
+  color: white;
+}
+.btn-cancel:hover { background-color: #7f8c8d; }
+
+/* Botão desabilitado (Para quando estiver "Carregando...") */
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   TELA DE STATUS DE DOAÇÃO
+   ========================================= */
+.status-container, .status-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  margin-top: 20px;
+}
+
+.status-details {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+  border-left: 4px solid #c0392b;
+}
+
+.status-details p {
+  margin-bottom: 8px;
+}
+
+.msg-success {
+  color: #166534;
+  background: #dcfce7;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+.msg-wait {
+  color: #92400e;
+  background: #fef3c7;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+/* =========================================
+   TELA DE HISTÓRICO (Tabela)
+   ========================================= */
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* =========================================
+   FORMULÁRIO DE NOVA DOAÇÃO
+   ========================================= */
+.form-container {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin-top: 20px;
+}
+
+.form-container label {
+  font-weight: bold;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  color: #374151;
+}
+
+.form-container input, .form-container textarea, .status-select {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-container textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* =========================================
+   TELA DE PERFIL
+   ========================================= */
+.profile-container {
+  max-width: 600px;
+}
+
+.profile-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  margin-top: 20px;
+}
+
+.profile-card p {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.profile-card hr {
+  border: 0;
+  height: 1px;
+  background: #e5e7eb;
+  margin: 20px 0;
+}
+
+.blood-badge {
+  background: #c0392b;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+}

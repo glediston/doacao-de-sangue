@@ -8,7 +8,7 @@ export const updateProfileSchema = z
   .object({
     name: z.string().min(3).optional(),
     email: z.string().email().optional(),
-    availability: z.enum(["DISPONIVEL", "INDISPONIVEL"]).optional(),
+    availability: z.enum(["DISPONIVEL", "INDISPONIVEL", "PRECISANDO_DOAR"]).optional(),
   })
   .transform((data) =>
     Object.fromEntries(

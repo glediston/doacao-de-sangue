@@ -39,7 +39,7 @@ describe("Auth Controller", () => {
       (authRepository.createUser as jest.Mock).mockResolvedValue({ id: 1 });
 
       const response = await request(app)
-        .post("/auth/register")
+        .post("/api/auth/register")
         .send({
           name: "Glediston",
           email: "glediston@gmail.com",
@@ -53,7 +53,7 @@ describe("Auth Controller", () => {
     });
   });
 
-  describe("POST /auth/login", () => {
+  describe("POST /api/auth/login", () => {
     it("deve fazer login com sucesso", async () => {
       // Mock do usuário retornado pelo banco
       const mockUser = {
@@ -72,7 +72,7 @@ describe("Auth Controller", () => {
       (jwt.sign as jest.Mock).mockReturnValue("fakeToken");
 
       const response = await request(app)
-        .post("/auth/login")
+        .post("/api/auth/login")
         .send({
           email: "glediston@gmail.com",
           password: "123456"
@@ -85,7 +85,7 @@ describe("Auth Controller", () => {
 
     it("deve retornar 400 se o email for inválido", async () => {
       const response = await request(app)
-        .post("/auth/login")
+        .post("/api/auth/login")
         .send({
           email: "email-invalido",
           password: "123"
