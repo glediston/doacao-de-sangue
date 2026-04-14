@@ -1,12 +1,8 @@
 
-
 import { z } from "zod";
-import { Availability } from "@prisma/client";
 
 export const getAvailableDonorsSchema = z.object({
-  availability: z.nativeEnum(Availability).optional(),
+  availability: z.enum(["DISPONIVEL", "INDISPONIVEL", "PRECISANDO_DOAR"]).optional(),
 });
 
-export type GetAvailableDonorsInput = z.infer<
-  typeof getAvailableDonorsSchema
->;
+export type GetAvailableDonorsInput = z.infer<typeof getAvailableDonorsSchema>;
