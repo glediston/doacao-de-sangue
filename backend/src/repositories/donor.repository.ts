@@ -3,14 +3,15 @@ import { Availability } from "@prisma/client";
 
 export const donorRepository = {
   // 🔒 SEMPRE retorna apenas disponíveis
-  async findAvailable() {
+async findByStatus(status: Availability) { // Mudamos o nome para ser genérico
     return prisma.user.findMany({
       where: {
-        availability: Availability.DISPONIVEL,
+        availability: status,
       },
       select: {
         id: true,
         name: true,
+        email: true,
         bloodType: true,
         availability: true,
       },
@@ -29,4 +30,6 @@ export const donorRepository = {
       },
     });
   },
+
+  
 };
