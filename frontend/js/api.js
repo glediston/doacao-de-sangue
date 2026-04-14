@@ -1,6 +1,5 @@
 
 
-
 const api = axios.create({
   baseURL: window.location.hostname.includes("localhost") || window.location.hostname.includes("127.0.0.1")
     ? "http://localhost:3000"
@@ -16,7 +15,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// NOVO: Intercepta a resposta para deslogar caso o token seja inválido/expirado (Erro 401)
+// Intercepta a resposta para deslogar caso o token seja inválido/expirado (Erro 401)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -24,11 +23,13 @@ api.interceptors.response.use(
       alert("Sua sessão expirou. Por favor, faça login novamente.");
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      window.location.href = "index.html"; // Redireciona para o login
+      window.location.href = "index.html"; 
     }
     return Promise.reject(error);
   }
 );
+
+// --- FUNÇÕES DE DOAÇÃO ---
 
 async function fetchDonations() {
   const response = await api.get("/api/donations/history");
@@ -50,14 +51,29 @@ async function fetchDonationStatus() {
   return response.data;
 }
 
-async function fetchAvailableDonors() {
-  // Rota corrigida com base no backend
-  const response = await api.get("/api/donors/usuarios-disponiveis");
+// --- FUNÇÕES DE DOADORES E DISPONIBILIDADE ---
+
+// ✅ CORRIGIDO: Mantive apenas uma versão, que aceita o status como parâmetro opcional
+async function fetchAvailableDonors(status = 'DISPONIVEL') {
+  const response = await api.get(`/api/donors/usuarios-disponiveis?status=${status}`);
   return response.data;
 }
 
 async function updateMyAvailability(userId, status) {
-  // ✅ BUG CORRIGIDO: Rota exata conforme o backend
   const response = await api.put(`/api/donors/usuarios/${userId}/disponibilidade`, { availability: status });
+  return response.data;
+}
+
+// --- FUNÇÕES DE PEDIDOS DE SANGUE ---
+
+async function createBloodRequest(requestData) {
+  // Adicionei um bloco try/catch simples ou apenas o retorno para garantir a chamada
+  const response = await api.post("/api/requests", requestData);
+  return response.data;
+}
+
+// Útil para listar os pedidos na tela de busca
+async function fetchAllRequests() {
+  const response = await api.get("/api/requests");
   return response.data;
 }

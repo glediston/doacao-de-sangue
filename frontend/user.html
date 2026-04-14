@@ -1,45 +1,43 @@
-  <!DOCTYPE html>
-  <html lang="pt">
-  <head>
+
+
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Painel BloodCare</title>
     <link rel="stylesheet" href="./css/dashboard.css">
-  </head>
-  <body>
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>❤️ BloodCare</h2>
+            </div>
+            <ul class="menu">
+                <li class="menu-item active" onclick="loadPage('home', this)">🏠 Painel</li>
+                <li class="menu-item" onclick="loadPage('status', this)">❤️ Status de Doação</li>
+                <li class="menu-item" onclick="loadPage('donations', this)">📅 Minhas Doações</li>
+                <li class="menu-item" onclick="loadPage('register', this)">🩸 Registrar Doação</li>
+                <li class="menu-item" onclick="loadPage('search', this)">🔍 Buscar Doadores</li>
+                <li class="menu-item" onclick="loadPage('requestBlood', this)" style="color: #e74c3c; font-weight: bold;">🚨 Preciso de Sangue</li>
+                <li class="menu-item" onclick="loadPage('profile', this)">👤 Meu Perfil</li>
+                <li onclick="logout()" style="cursor:pointer; margin-top: 20px; color: #e74c3c;">🚪 Sair</li>
+            </ul>
+        </aside>
 
-  <div class="dashboard">
+        <main class="content">
+            <div id="dynamicContent">
+                <h1>Bem-vindo ao seu painel</h1>
+                <p>Aqui aparecerão suas informações.</p>
+            </div>
+        </main>
+    </div>
 
-    <aside class="sidebar">
-      <div class="logo">
-        <h2>❤️ BloodCare</h2>
-      </div>
-
-      <ul class="menu">
-      <li class="menu-item" onclick="loadPage('home', this)">🏠 Painel</li>
-      <li class="menu-item" onclick="loadPage('status', this)">❤️ Status</li>
-      <li class="menu-item" onclick="loadPage('donations', this)">📅 Minhas Doações</li>
-      <li class="menu-item" onclick="loadPage('register', this)">🩸 Registrar Doação</li>
-      <li class="menu-item" onclick="loadPage('profile', this)">👤 Meu Perfil</li>
-        <li onclick="logout()">🚪 Sair</li>
-      </ul>
-    </aside>
-
-    <main class="content">
-      <div id="dynamicContent">
-        <h1>Bem-vindo ao seu painel</h1>
-        <p>Aqui aparecerão suas informações.</p>
-      </div>
-    </main>
-
-  </div>
-
-
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="./js/api.js"></script>
-  <script src="./js/guard.js"></script>
-  <script src="./js/dashboard.js"></script>
-
-
-  </body>
-  </html>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/api.js"></script>
+    <script src="./js/guard.js"></script>
+    <script src="./js/dashboard.js"></script>
+</body>
+</html>
