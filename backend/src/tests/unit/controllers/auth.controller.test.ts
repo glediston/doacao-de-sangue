@@ -43,7 +43,7 @@ describe("Auth Controller", () => {
         .send({
           name: "Glediston",
           email: "glediston@gmail.com",
-          password: "12345678", // Mínimo 8 caracteres conforme seu schema
+          password: "Senha123", // Mínimo 8 caracteres conforme seu schema
           gender: "MALE",
           bloodType: "O_POS"
         });

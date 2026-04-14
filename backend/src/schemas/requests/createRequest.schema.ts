@@ -1,6 +1,13 @@
 import { z } from "zod";
 
-const BloodTypes = ["A_POSITIVO", "A_NEGATIVO", "B_POSITIVO", "B_NEGATIVO", "AB_POSITIVO", "AB_NEGATIVO", "O_POSITIVO", "O_NEGATIVO"] as const;
+const BloodTypes = [ "A_POS",
+  "A_NEG",
+  "B_POS",
+  "B_NEG",
+  "AB_POS",
+  "AB_NEG",
+  "O_POS",
+  "O_NEG"] as const;
 
 export const createRequestSchema = z.object({
   requester: z.string().min(3),
