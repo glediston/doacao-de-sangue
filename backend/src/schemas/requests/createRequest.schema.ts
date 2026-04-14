@@ -1,13 +1,12 @@
-// src/schemas/requests/createRequest.schema.ts
 import { z } from "zod";
-import { BloodType } from "@prisma/client";
+
+const BloodTypes = ["A_POSITIVO", "A_NEGATIVO", "B_POSITIVO", "B_NEGATIVO", "AB_POSITIVO", "AB_NEGATIVO", "O_POSITIVO", "O_NEGATIVO"] as const;
 
 export const createRequestSchema = z.object({
   requester: z.string().min(3),
-  bloodType: z.nativeEnum(BloodType),
+  bloodType: z.enum(BloodTypes),
   location: z.string().min(3),
   message: z.string().optional(),
 });
 
-// 🔥 inferência automática
 export type CreateRequestInput = z.infer<typeof createRequestSchema>;
