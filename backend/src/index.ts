@@ -58,7 +58,7 @@ app.use('/api/status', statusRoutes);
 const PORT = process.env.PORT || 3000;
 
 // Só sobe o servidor se não estivermos em ambiente de teste
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV === 'development') {
   app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando na porta ${PORT}`);
   });
